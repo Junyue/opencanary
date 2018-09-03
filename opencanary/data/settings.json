@@ -63,7 +63,10 @@
         }
     },
     "portscan.synrate": 5,
+    "portscan.enabled": true,
+    "portscan.auditfile": "/var/log/kern.log",
     "smb.auditfile": "/var/log/samba-audit.log",
+    "server.ip": "172.18.214.121",
     "smb.configfile": "/briar/config/smb.conf",
     "smb.domain": "corp.thinkst.com",
     "smb.enabled": false,
