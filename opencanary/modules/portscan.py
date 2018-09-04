@@ -36,7 +36,6 @@ class SynLogWatcher(FileSystemWatcher):
 
 class CanaryPortscan(CanaryService):
     NAME = 'portscan'
-    
 
     def __init__(self,config=None, logger=None):
         CanaryService.__init__(self, config=config, logger=logger)
@@ -44,7 +43,6 @@ class CanaryPortscan(CanaryService):
         self.synrate = int(config.getVal('portscan.synrate', default=5))
         self.listen_addr = config.getVal('device.listen_addr', default='')
         self.config = config
-    
 
     def startYourEngines(self, reactor=None):
         os.system('sudo /sbin/iptables -t mangle -D PREROUTING -p tcp {dst} --syn -j LOG --log-level=warning --log-prefix="canaryfw: " -m limit --limit="{synrate}/second"'
@@ -57,6 +55,7 @@ class CanaryPortscan(CanaryService):
             f = open(self.audit_file)
         except IOError as e:
             self.audit_file = '/var/log/kern'
+
         fs = SynLogWatcher(logFile=self.audit_file, logger=self.logger)
         fs.start()
 
