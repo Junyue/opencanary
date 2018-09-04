@@ -96,7 +96,7 @@
     "rdp.enabled": false,
     "sip.enabled": true,
     "snmp.enabled": false,
-    "ntp.enabled": true,
+    "ntp.enabled": false,
     "tftp.enabled": true,
     "ntp.port": "123",
     "telnet.port": "23",
