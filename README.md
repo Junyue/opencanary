@@ -65,6 +65,7 @@ pip install opencanary-0.3.2.tar.gz
 若第一次安装opencanary，需要先运行opencanaryd --copyconfig，会生成/root/.opencanary.conf配置文件。
 
 启动命令: opencanaryd --start
+
 停止命令: opencanaryd --stop
 
 opencanary日志: /var/tmp/opencanary.log
