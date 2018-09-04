@@ -2,17 +2,12 @@ import simplejson as json
 import logging.config
 import socket
 import sys
-
 from datetime import datetime
 from logging.handlers import SocketHandler
 from twisted.internet import reactor
-from logging.handlers import HTTPHandler
-import thread
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime as datetimes
 import time
-import uuid
-
 
 class Singleton(type):
     _instances = {}
@@ -93,7 +88,8 @@ class LoggerBase(object):
     def sanitizeLog(self, logdata):
         logdata['node_id'] = self.node_id
         logdata['local_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-        if not logdata.has_key('src_host'):
+        
+	if not logdata.has_key('src_host'):
             logdata['src_host'] = ''
         if not logdata.has_key('src_port'):
             logdata['src_port'] = -1
@@ -105,7 +101,7 @@ class LoggerBase(object):
             logdata['logtype'] = self.LOG_BASE_MSG
         if not logdata.has_key('logdata'):
             logdata['logdata'] = {}
-        return logdata
+	return logdata
 
 class PyLogger(LoggerBase):
     """
@@ -115,8 +111,7 @@ class PyLogger(LoggerBase):
 
     def __init__(self, config, handlers, formatters={}):
         self.node_id = config.getVal('device.node_id')
-        self.serverip = config.getVal('server.ip')
-        
+	self.serverip = config.getVal('server.ip')
         # Build config dict to initialise
         # Ensure all handlers don't drop logs based on severity level
         for h in handlers:
@@ -145,34 +140,31 @@ class PyLogger(LoggerBase):
         self.logger = logging.getLogger(self.node_id)
 
     def error(self, data):
-        logdata['local_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        data['local_time'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
         msg = '[ERR] %r' % json.dumps(data, sort_keys=True)
         print >> sys.stderr, msg
         self.logger.warn(msg)
 
     def post2server(self, serverip, jsondata):
-        self.logger.warn('test1')
-        try:
+	try:
             import urllib2
-            req  = urllib2.Request(serverip+'/log/', jsondata, {'Content-Type':'application/json'})
-            self.logger.warn(serverip)
+            url = 'http://'+serverip+'/log/'
+            req  = urllib2.Request(url, jsondata, {'Content-Type':'application/json'})
             f = urllib2.urlopen(req)
             response = f.read()
-            self.logger.warn('--'+response)
-            f.close()
-        except urllib2.URLError, e:
+            self.logger.warn(response)
+            f.close()       
+	except urllib2.URLError, e:
             self.logger.error(e)
-        self.logger.warn(jsondata)
 
     def log(self, logdata, retry=True):
         logdata = self.sanitizeLog(logdata)
         jsondata = json.dumps(logdata, sort_keys=True)
         if logdata['src_host']!='127.0.0.1' and logdata['dst_host']!='':
-            self.logger.warn('test')
-            scheduler = BackgroundScheduler()
-            # time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+	    import uuid
+	    scheduler = BackgroundScheduler()
             scheduler.add_job(self.post2server, 'date', run_date=(datetime.now() + datetimes.timedelta(seconds=1)), args=[self.serverip, jsondata], id=str(uuid.uuid1()))
-            scheduler.start()
+	    scheduler.start()
         elif logdata['src_host']!='127.0.0.1':
             self.logger.warn(jsondata)
 
@@ -236,3 +228,4 @@ class HpfeedsHandler(logging.Handler):
             self.hpc.publish(self.channels,msg)
         except:
             print "Error on publishing to server"
+
