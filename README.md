@@ -51,12 +51,43 @@ cd opencanary/
 ```
 
 vi opencanary/data/settings.json
+
 将第69行，server.ip改成自己web服务端的ip
 
+```
+"server.ip": "172.18.214.121",
+```
+
+安装opencanary
 ```
 python setup.py sdist
 cd dist
 pip install opencanary-0.3.2.tar.gz
+```
+
+配置端口扫描发现功能
+----------------------
+>端口扫描发现模块是依赖于iptables；需要rsyslog配合产生kern.log日志。
+
+
+### 1 安装iptables
+
+```
+yum install iptables-services
+```
+
+### 2 配置rsyslog
+
+通过rsyslog 控制日志产生位置： vi /etc/rsyslog.conf
+
+修改第50行
+```
+kern.*                                                 /var/log/kern.log
+```
+重启rsyslog
+
+```
+systemctl restart rsyslog.service
 ```
 
 启动和停止opencanary
