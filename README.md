@@ -52,7 +52,9 @@ cd opencanary/
 
 vi opencanary/data/settings.json
 
-将第69行，server.ip改成自己web服务端的ip
+将第69行，server.ip改成自己web服务端的ip。
+
+注意: 如果你的web端，不是80端口，要在配置的ip后面跟上“:端口号”。
 
 ```
 "server.ip": "172.18.214.121",
@@ -100,3 +102,4 @@ systemctl restart rsyslog.service
 停止命令: opencanaryd --stop
 
 opencanary日志: /var/tmp/opencanary.log
+
