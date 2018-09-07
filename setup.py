@@ -22,7 +22,8 @@ setup(
         'fpdf==1.7',
         'passlib==1.6.2',
         'Jinja2>=2.4',
-        'ntlmlib==0.67'
+        'ntlmlib==0.67',
+        'APScheduler==3.5.3'
     ],
     setup_requires=[
         'setuptools_git'
