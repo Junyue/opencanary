@@ -18,8 +18,8 @@ https://github.com/p1r06u3/opencanary_web
 
 Centos7 最小化安装
 ```
-yum install epel-release //安装epel扩展源
-yum -y install libpcap-devel openssl-devel libffi-devel python-devel gcc python-pip
+yum -y install epel-release //安装epel扩展源
+yum -y install libpcap-devel openssl-devel libffi-devel python-devel gcc python-pip gcc-c++
 ```
 
 Ubuntu16
@@ -29,18 +29,6 @@ sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev
 ```
 
 
-
-安装python依赖
-----------------
-```
-pip install --upgrade pip
-pip install pyasn1-modules
-pip install service_identity
-pip install scapy pcapy
-pip install rdpy
-pip install pyinotify
-pip install apscheduler
-```
 
 安装opencanary客户端
 ----------
