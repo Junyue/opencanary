@@ -16,9 +16,10 @@ https://github.com/p1r06u3/opencanary_web
 ----------------
 这里推荐使用Centos7或Ubuntu16，因为系统比较新默认python环境为2.7.x，类库也比较新。
 
-Centos7
+Centos7 最小化安装
 ```
-yum -y install libpcap-devel openssl-devel libffi-devel
+yum -y install epel-release //安装epel扩展源
+yum -y install libpcap-devel openssl-devel libffi-devel python-devel gcc python-pip gcc-c++
 ```
 
 Ubuntu16
@@ -28,18 +29,6 @@ sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev
 ```
 
 
-
-安装python依赖
-----------------
-```
-pip install --upgrade pip
-pip install pyasn1-modules
-pip install service_identity
-pip install scapy pcapy
-pip install rdpy
-pip install pyinotify
-pip install apscheduler
-```
 
 安装opencanary客户端
 ----------
