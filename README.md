@@ -18,7 +18,7 @@ https://github.com/p1r06u3/opencanary_web
 
 Centos7
 ```
-yum -y install libpcap-devel openssl-devel libffi-devel
+yum -y install gcc python-devel libpcap-devel openssl-devel libffi-devel
 ```
 
 Ubuntu16
@@ -32,7 +32,6 @@ sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev
 安装python依赖
 ----------------
 ```
-pip install --upgrade pip
 pip install pyasn1-modules
 pip install service_identity
 pip install scapy pcapy
@@ -52,13 +51,25 @@ cd opencanary/
 
 vi opencanary/data/settings.json
 
-将第69行，server.ip改成自己web服务端的ip。
+* 将第2行，device.node_id的值opencanary-1代表将来告警的节点，可以改为主机名等任意字符（不改也可以）。
 
-注意: 如果你的web端，不是80端口，要在配置的ip后面跟上“:端口号”。
+    ```
+    "device.node_id": "opencanary-1",
+    ```
 
-```
-"server.ip": "172.18.214.121",
-```
+* 将第69行，server.ip改成自己web服务端的ip（重要）。
+
+    注意: 如果你的web端，不是80端口，要在配置的ip后面跟上“:端口号”。
+
+    ```
+    "server.ip": "172.18.214.121",
+    ```
+
+* 将第70行，device.listen_addr改成自己本机ip(非127.0.0.1)（可改可不改，最好是改一下）。
+
+    ```
+    "device.listen_addr": "172.18.214.120",
+    ```
 
 安装opencanary
 ```
