@@ -12,7 +12,7 @@ setup(
     description='OpenCanary daemon',
     long_description='A low interaction honeypot intended to be run on internal networks.',
     install_requires=[
-        'Twisted==18.7.0',
+        'Twisted==14.0.2',
         'pyasn1==0.4.4',
         'pycrypto==2.6.1',
         'simplejson==3.16.0',
