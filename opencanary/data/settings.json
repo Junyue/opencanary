@@ -115,5 +115,5 @@
     ],
     "mssql.enabled": false,
     "vnc.enabled": false,
-    "host.enabled": true,
+    "host.enabled": true
 }
