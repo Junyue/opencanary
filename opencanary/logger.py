@@ -5,7 +5,7 @@ import sys
 from datetime import datetime
 from logging.handlers import SocketHandler
 from twisted.internet import reactor
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.twisted import TwistedScheduler
 import datetime as datetimes
 import time
 
@@ -84,6 +84,7 @@ class LoggerBase(object):
     LOG_USER_7                                  = 99007
     LOG_USER_8                                  = 99008
     LOG_USER_9                                  = 99009
+    LOG_HOST                                    = 55555
 
     def sanitizeLog(self, logdata):
         logdata['node_id'] = self.node_id
@@ -140,7 +141,7 @@ class PyLogger(LoggerBase):
         self.logger = logging.getLogger(self.node_id)
 
     def error(self, data):
-        data['local_time'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+        data['local_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         msg = '[ERR] %r' % json.dumps(data, sort_keys=True)
         print >> sys.stderr, msg
         self.logger.warn(msg)
@@ -161,10 +162,10 @@ class PyLogger(LoggerBase):
         logdata = self.sanitizeLog(logdata)
         jsondata = json.dumps(logdata, sort_keys=True)
         if logdata['src_host']!='127.0.0.1' and logdata['dst_host']!='':
-	    import uuid
-	    scheduler = BackgroundScheduler()
+            import uuid
+            scheduler = TwistedScheduler()
             scheduler.add_job(self.post2server, 'date', run_date=(datetime.now() + datetimes.timedelta(seconds=1)), args=[self.serverip, jsondata], id=str(uuid.uuid1()))
-	    scheduler.start()
+            scheduler.start()
         elif logdata['src_host']!='127.0.0.1':
             self.logger.warn(jsondata)
 

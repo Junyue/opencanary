@@ -18,13 +18,15 @@ from opencanary.modules.ntp import CanaryNtp
 from opencanary.modules.tftp import CanaryTftp
 from opencanary.modules.vnc import CanaryVNC
 from opencanary.modules.sip import CanarySIP
+from opencanary.modules.host import CanaryHost
+
 
 #from opencanary.modules.example0 import CanaryExample0
 #from opencanary.modules.example1 import CanaryExample1
 
 ENTRYPOINT = "canary.usermodule"
 MODULES = [Telnet, CanaryHTTP, CanaryFTP, CanarySSH, HTTPProxy, CanaryMySQL,
-           MSSQL, CanaryVNC, CanaryTftp, CanaryNtp, CanarySIP]
+           MSSQL, CanaryVNC, CanaryTftp, CanaryNtp, CanarySIP, CanaryHost]
            #CanaryExample0, CanaryExample1]
 try:
     #Module needs RDP, but the rest of OpenCanary doesn't
