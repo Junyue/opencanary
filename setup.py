@@ -23,7 +23,6 @@ setup(
         'passlib==1.7.1',
         'Jinja2==2.10',
         'ntlmlib==0.72',
-        'APScheduler==3.5.3',
         'service-identity==17.0.0',
         'scapy==2.4.0',
         'pcapy==0.11.4',
