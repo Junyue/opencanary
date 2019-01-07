@@ -8,7 +8,7 @@ setup(
     version=opencanary.__version__,
     url='http://www.thinkst.com/',
     author='Thinkst Applied Research',
-    author_email='info@thinkst.com',
+    author_email='info@thinkst.com and p1r06u3@gmail.com',
     description='OpenCanary daemon',
     long_description='A low interaction honeypot intended to be run on internal networks.',
     install_requires=[

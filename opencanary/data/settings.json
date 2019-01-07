@@ -1,8 +1,12 @@
 {
     "device.node_id": "opencanary-1",
-    "ftp.banner": "FTP server ready",
+    "server.ip": "172.18.214.121",
+    "device.listen_addr": "172.18.214.120",
+    "git.enabled": true,
+    "git.port" : 9418,
     "ftp.enabled": true,
     "ftp.port": 21,
+    "ftp.banner": "FTP server ready",
     "http.banner": "Apache/2.2.22 (Ubuntu)",
     "http.enabled": true,
     "http.port": 80,
@@ -17,6 +21,7 @@
             "name": "nasLogin"
         }
     ],
+    "httpproxy.enabled" : true,
     "httpproxy.port": 8080,
     "httpproxy.skin": "squid",
     "httproxy.skin.list": [
@@ -45,64 +50,51 @@
                 "file": {
                     "class": "logging.FileHandler",
                     "filename": "/var/tmp/opencanary.log"
-                },
-                "syslog-unix": {
-                    "class": "logging.handlers.SysLogHandler",
-                    "address": [
-                        "localhost",
-                        514
-                    ],
-                    "socktype": "ext://socket.SOCK_DGRAM"
-                },
-                "json-tcp": {
-                    "class": "opencanary.logger.SocketJSONHandler",
-                    "host": "127.0.0.1",
-                    "port": 1514
                 }
             }
         }
     },
-    "portscan.synrate": 5,
     "portscan.enabled": true,
-    "portscan.auditfile": "/var/log/kern.log",
+    "portscan.logfile":"/var/log/kern.log",
+    "portscan.synrate": 5,
+    "portscan.nmaposrate": 5,
+    "portscan.lorate": 3,
     "smb.auditfile": "/var/log/samba-audit.log",
-    "server.ip": "172.18.214.121",
-    "device.listen_addr": "172.18.214.120",
-    "smb.configfile": "/briar/config/smb.conf",
-    "smb.domain": "corp.thinkst.com",
-    "smb.enabled": false,
-    "smb.filelist": [
-        {
-            "name": "2016-Tender-Summary.pdf",
-            "type": "PDF"
-        },
-        {
-            "name": "passwords.docx",
-            "type": "DOCX"
-        }
-    ],
-    "smb.mode": "workgroup",
-    "smb.netbiosname": "FILESERVER",
-    "smb.serverstring": "Windows 2003 File Server",
-    "smb.sharecomment": "Office documents",
-    "smb.sharename": "Documents",
-    "smb.sharepath": "/changeme",
-    "smb.workgroup": "OFFICE",
-    "mysql.banner": "5.5.43-0ubuntu0.14.04.1",
-    "mysql.port": 3306,
+    "smb.enabled": true,
     "mysql.enabled": true,
+    "mysql.port": 3306,
+    "mysql.banner": "5.5.43-0ubuntu0.14.04.1",
     "ssh.enabled": true,
-    "ssh.port": 8022,
+    "ssh.port": 22,
     "ssh.version": "SSH-2.0-OpenSSH_5.1p1 Debian-4",
-    "rdp.enabled": false,
+    "redis.enabled": true,
+    "redis.port": 6379,
+    "rdp.enabled": true,
+    "rdp.port": 3389,
     "sip.enabled": true,
-    "snmp.enabled": false,
+    "sip.port": 5060,
+    "snmp.enabled": true,
+    "snmp.port": 161,
     "ntp.enabled": false,
-    "tftp.enabled": true,
     "ntp.port": "123",
-    "telnet.port": "23",
+    "tftp.enabled": true,
+    "tftp.port": 69,
+    "tcpbanner.maxnum":10,
+    "tcpbanner.enabled": true,
+    "tcpbanner_1.enabled": true,
+    "tcpbanner_1.port": 8001,
+    "tcpbanner_1.datareceivedbanner": "cmdserver",
+    "tcpbanner_1.initbanner": "console",
+    "tcpbanner_1.alertstring.enabled": false,
+    "tcpbanner_1.alertstring": "cmd",
+    "tcpbanner_1.keep_alive.enabled": false,
+    "tcpbanner_1.keep_alive_secret": "password",
+    "tcpbanner_1.keep_alive_probes": 11,
+    "tcpbanner_1.keep_alive_interval":300,
+    "tcpbanner_1.keep_alive_idle": 300,
     "telnet.enabled": true,
-    "telnet.banner": "",
+    "telnet.port": "23",
+    "telnet.banner": "TelnetServer",
     "telnet.honeycreds": [
         {
             "username": "admin",
@@ -113,7 +105,9 @@
             "password": "admin1"
         }
     ],
-    "mssql.enabled": false,
-    "vnc.enabled": false,
-    "host.enabled": true
+    "mssql.enabled": true,
+    "mssql.version": "2012",
+    "mssql.port":1433,
+    "vnc.enabled": true,
+    "vnc.port":5000
 }

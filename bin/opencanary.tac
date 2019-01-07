@@ -18,6 +18,9 @@ from opencanary.modules.ntp import CanaryNtp
 from opencanary.modules.tftp import CanaryTftp
 from opencanary.modules.vnc import CanaryVNC
 from opencanary.modules.sip import CanarySIP
+from opencanary.modules.git import CanaryGit
+from opencanary.modules.redis import CanaryRedis
+from opencanary.modules.tcpbanner import CanaryTCPBanner
 from opencanary.modules.host import CanaryHost
 
 
@@ -26,7 +29,8 @@ from opencanary.modules.host import CanaryHost
 
 ENTRYPOINT = "canary.usermodule"
 MODULES = [Telnet, CanaryHTTP, CanaryFTP, CanarySSH, HTTPProxy, CanaryMySQL,
-           MSSQL, CanaryVNC, CanaryTftp, CanaryNtp, CanarySIP, CanaryHost]
+           MSSQL, CanaryVNC, CanaryTftp, CanaryNtp, CanarySIP, CanaryGit,
+           CanaryTCPBanner, CanaryRedis, CanaryHost]
            #CanaryExample0, CanaryExample1]
 try:
     #Module needs RDP, but the rest of OpenCanary doesn't
@@ -84,7 +88,10 @@ def start_mod(application, klass):
     elif hasattr(obj, 'getService'):
         try:
             service = obj.getService()
-            service.setServiceParent(application)
+            if not isinstance(service, list):
+                service = [service]
+            for s in service:
+                s.setServiceParent(application)
             msg = 'Added service from class %s in %s to fake' % (
                 klass.__name__,
                 klass.__module__
