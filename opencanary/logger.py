@@ -2,10 +2,12 @@ import simplejson as json
 import logging.config
 import socket
 import sys
-
 from datetime import datetime
 from logging.handlers import SocketHandler
 from twisted.internet import reactor
+from apscheduler.schedulers.twisted import TwistedScheduler
+import datetime as datetimes
+import time
 
 class Singleton(type):
     _instances = {}
@@ -96,7 +98,7 @@ class LoggerBase(object):
 
     def sanitizeLog(self, logdata):
         logdata['node_id'] = self.node_id
-        logdata['local_time'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+        logdata['local_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         if not logdata.has_key('src_host'):
             logdata['src_host'] = ''
         if not logdata.has_key('src_port'):
@@ -119,7 +121,7 @@ class PyLogger(LoggerBase):
 
     def __init__(self, config, handlers, formatters={}):
         self.node_id = config.getVal('device.node_id')
-
+        self.serverip = config.getVal('server.ip')
         # Build config dict to initialise
         # Ensure all handlers don't drop logs based on severity level
         for h in handlers:
@@ -148,14 +150,33 @@ class PyLogger(LoggerBase):
         self.logger = logging.getLogger(self.node_id)
 
     def error(self, data):
-        data['local_time'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+        data['local_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         msg = '[ERR] %r' % json.dumps(data, sort_keys=True)
         print >> sys.stderr, msg
         self.logger.warn(msg)
 
+    def post2server(self, serverip, jsondata):
+        try:
+                import urllib2
+                url = 'http://'+serverip+'/log/'
+                req  = urllib2.Request(url, jsondata, {'Content-Type':'application/json'})
+                f = urllib2.urlopen(req)
+                response = f.read()
+                self.logger.warn(response)
+                f.close()       
+        except urllib2.URLError, e:
+                self.logger.error(e)
+
     def log(self, logdata, retry=True):
         logdata = self.sanitizeLog(logdata)
-        self.logger.warn(json.dumps(logdata, sort_keys=True))
+        jsondata = json.dumps(logdata, sort_keys=True)
+        if logdata['src_host']!='127.0.0.1' and logdata['dst_host']!='':
+            import uuid
+            scheduler = TwistedScheduler()
+            scheduler.add_job(self.post2server, 'date', run_date=(datetime.now() + datetimes.timedelta(seconds=1)), args=[self.serverip, jsondata], id=str(uuid.uuid1()))
+            scheduler.start()
+        elif logdata['src_host']!='127.0.0.1':
+            self.logger.warn(jsondata)
 
 
 class SocketJSONHandler(SocketHandler):

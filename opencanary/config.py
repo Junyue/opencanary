@@ -23,6 +23,7 @@ class Config:
 
         files = [configfile, "%s/.%s" % (expanduser("~"), configfile), "/etc/opencanaryd/%s"%configfile]
         print "** We hope you enjoy using OpenCanary. For more open source Canary goodness, head over to canarytokens.org. **"
+        print "** The honeypot is supported by http://pirogue.org . **"
         for fname in files:
             try:
                 with open(fname, "r") as f:
