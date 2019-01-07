@@ -95,6 +95,7 @@ class LoggerBase(object):
     LOG_USER_7                                  = 99007
     LOG_USER_8                                  = 99008
     LOG_USER_9                                  = 99009
+    LOG_HOST                                    = 55555
 
     def sanitizeLog(self, logdata):
         logdata['node_id'] = self.node_id
