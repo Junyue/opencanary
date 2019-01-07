@@ -85,9 +85,15 @@
     "tcpbanner_1.port": 8001,
     "tcpbanner_1.datareceivedbanner": "cmdserver",
     "tcpbanner_1.initbanner": "console",
+<<<<<<< HEAD
     "tcpbanner_1.alertstring.enabled": false,
     "tcpbanner_1.alertstring": "cmd",
     "tcpbanner_1.keep_alive.enabled": false,
+=======
+    "tcpbanner_1.alertstring.enabled": true,
+    "tcpbanner_1.alertstring": "cmd",
+    "tcpbanner_1.keep_alive.enabled": true,
+>>>>>>> dev
     "tcpbanner_1.keep_alive_secret": "password",
     "tcpbanner_1.keep_alive_probes": 11,
     "tcpbanner_1.keep_alive_interval":300,

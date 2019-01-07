@@ -47,6 +47,7 @@ vi opencanary/data/settings.json
     "device.node_id": "opencanary-1",
     ```
 
+<<<<<<< HEAD
 * 将第3行，server.ip改成自己web服务端的ip（重要）。
 
     注意: 如果你的web端，不是80端口，要在配置的ip后面跟上“:端口号”。
@@ -61,11 +62,31 @@ vi opencanary/data/settings.json
     "device.listen_addr": "172.18.214.120",
     ```
 
+=======
+* 将第69行，server.ip改成自己web服务端的ip（重要）。
+
+    注意: 如果你的web端，不是80端口，要在配置的ip后面跟上“:端口号”。
+
+    ```
+    "server.ip": "172.18.214.121",
+    ```
+
+* 将第70行，device.listen_addr改成自己本机ip(非127.0.0.1)（可改可不改，最好是改一下）。
+
+    ```
+    "device.listen_addr": "172.18.214.120",
+    ```
+
+>>>>>>> dev
 安装opencanary
 ```
 python setup.py sdist
 cd dist
+<<<<<<< HEAD
 pip install opencanary-0.4.tar.gz
+=======
+pip install opencanary-0.3.2.tar.gz
+>>>>>>> dev
 ```
 
 配置端口扫描发现功能
@@ -102,7 +123,10 @@ systemctl restart rsyslog.service
 
 停止命令: opencanaryd --stop
 
+<<<<<<< HEAD
 重启命令: opencanaryd --restart
 
+=======
+>>>>>>> dev
 opencanary日志: /var/tmp/opencanary.log
 
