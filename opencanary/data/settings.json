@@ -2,6 +2,7 @@
     "device.node_id": "opencanary-1",
     "server.ip": "172.18.214.121",
     "device.listen_addr": "172.18.214.120",
+    "host.enabled": true,
     "git.enabled": true,
     "git.port" : 9418,
     "ftp.enabled": true,
