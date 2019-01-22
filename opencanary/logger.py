@@ -174,7 +174,7 @@ class PyLogger(LoggerBase):
         if logdata['src_host']!='127.0.0.1' and logdata['dst_host']!='':
             import uuid
             scheduler = TwistedScheduler()
-            scheduler.add_job(self.post2server, 'date', run_date=(datetime.now() + datetimes.timedelta(seconds=1)), args=[self.serverip, jsondata], id=str(uuid.uuid1()))
+            scheduler.add_job(self.post2server, args=[self.serverip, jsondata], id=str(uuid.uuid1()))
             scheduler.start()
         elif logdata['src_host']!='127.0.0.1':
             self.logger.warn(jsondata)

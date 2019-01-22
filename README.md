@@ -25,7 +25,7 @@ yum -y install libpcap-devel openssl-devel libffi-devel python-devel gcc python-
 Ubuntu16
 ```
 sudo apt-get install -y python-dev python-pip python-virtualenv libpcap-dev
-sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev
+sudo apt-get install -y build-essential libssl-dev libffi-dev
 ```
 
 
