@@ -117,6 +117,11 @@ class CanaryPortscan(CanaryService):
         # Nmap Fin Scan
         os.system('sudo /sbin/iptables -t mangle -D PREROUTING -p tcp -m u32 --u32 "6&0xFF=0x6 && 0>>22&0x3C@12=0x50010400" -j LOG --log-level=warning --log-prefix="canarynmapFIN: " -m limit --limit="{0}/second"'.format(self.nmaposrate))
         os.system('sudo /sbin/iptables -t mangle -A PREROUTING -p tcp -m u32 --u32 "6&0xFF=0x6 && 0>>22&0x3C@12=0x50010400" -j LOG --log-level=warning --log-prefix="canarynmapFIN: " -m limit --limit="{0}/second"'.format(self.nmaposrate))
+        
+        try:
+            f = open(self.audit_file)
+        except IOError as e:
+            self.audit_file = '/var/log/kern'
 
         fs = SynLogWatcher(logFile=self.audit_file, logger=self.logger)
         fs.start()
