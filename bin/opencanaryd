@@ -46,7 +46,7 @@ elif [ "${cmd}" == "--usermodule" ]; then
 
 elif [ "${cmd}" == "--restart" ]; then
     pid=`sudo cat "${PIDFILE}"`
-    sudo kill "$pid"
+    sudo kill -9 "$pid"
     if [ ! -f ~/.opencanary.conf -a ! -f opencanary.conf -a ! -f /etc/opencanaryd/opencanary.conf ]; then
         echo "[e] No config file found, please create one with \"opencanaryd --copyconfig\""
         exit 1
@@ -55,7 +55,7 @@ elif [ "${cmd}" == "--restart" ]; then
 
 elif [ "${cmd}" == "--stop" ]; then
     pid=`sudo cat "${PIDFILE}"`
-    sudo kill "$pid"
+    sudo kill -9 "$pid"
 elif [ "${cmd}" == "--copyconfig" ]; then
     if [ -f ~/.opencanary.conf ]; then
         echo "[e] A config file already exists at ${HOME}/.opencanary.conf, please move it first"
