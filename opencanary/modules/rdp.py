@@ -9,7 +9,7 @@ from rdpy.core.scancode import scancodeToChar
 from opencanary.modules import CanaryService
 
 class RDPObserver(RDPServerObserver):
-    def __init__(self, factory, controller, rssFile):
+    def __init__(self, factory, controller):
         RDPServerObserver.__init__(self, controller)
         self.factory = factory
         self.buffer = ""
@@ -33,7 +33,7 @@ class RDPObserver(RDPServerObserver):
             'dst_port' : us.port
         }
         self.factory.log(logdata, **self.transportlog)
-        self.doEvent(0)
+#        self.doEvent(0)
 
     def onClose(self):
         if getattr(self, "transportlog", None):
@@ -49,26 +49,26 @@ class RDPObserver(RDPServerObserver):
     def onPointerEvent(self, x, y, button, isPressed):
         pass
 
-    def doEvent(self, i):
-        if i >= len(self.factory.rss) - 1:
-            return
+#    def doEvent(self, i):
+#        if i >= len(self.factory.rss) - 1:
+#            return
 
-        e = self.factory.rss[i]
+#        e = self.factory.rss[i]
 
         # TODO: handle other events (eg. the screen resize)
-        if e.type.value == rss.EventType.UPDATE:
-            self._controller.sendUpdate(
-                e.event.destLeft.value,
-                e.event.destTop.value,
-                e.event.destRight.value,
-                e.event.destBottom.value,
-                e.event.width.value, e.event.height.value,
-                e.event.bpp.value,
-                e.event.format.value == rss.UpdateFormat.BMP,
-                e.event.data.value)
-
-        t = self.factory.rss[i+1].timestamp.value
-        reactor.callLater(float(t) / 1000.0, self.doEvent, i + 1)
+#        if e.type.value == rss.EventType.UPDATE:
+#            self._controller.sendUpdate(
+#                e.event.destLeft.value,
+#                e.event.destTop.value,
+#                e.event.destRight.value,
+#                e.event.destBottom.value,
+#                e.event.width.value, e.event.height.value,
+#                e.event.bpp.value,
+#                e.event.format.value == rss.UpdateFormat.BMP,
+#                e.event.data.value)
+#
+#        t = self.factory.rss[i+1].timestamp.value
+#        reactor.callLater(float(t) / 1000.0, self.doEvent, i + 1)
 
 class CanaryRDP(ServerFactory, CanaryService):
     NAME = 'rdp'
@@ -77,20 +77,20 @@ class CanaryRDP(ServerFactory, CanaryService):
         ServerFactory.__init__(self, 16, None, None)
         CanaryService.__init__(self, config, logger)
 
-        self.rssFile = self.resource_filename("login.rss")
-        reader = rss.createReader(self.rssFile)
-        self.rss = []
-        while True:
-            e = reader.nextEvent()
-            if e:
-                self.rss.append(e)
-            else:
-                break
+#        self.rssFile = self.resource_filename("login.rss")
+#        reader = rss.createReader(self.rssFile)
+#        self.rss = []
+#        while True:
+#            e = reader.nextEvent()
+#            if e:
+#                self.rss.append(e)
+#            else:
+#                break
 
         self.port = config.getVal("rdp.port", 3389)
         self.logtype = logger.LOG_RDP
 
     def buildObserver(self, controller, addr):
-        return RDPObserver(self, controller, self.rssFile)
+        return RDPObserver(self, controller)
 
 CanaryServiceFactory = CanaryRDP
