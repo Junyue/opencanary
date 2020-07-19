@@ -28,7 +28,8 @@ setup(
         'scapy==2.4.0',
         'pcapy==0.11.4',
         'rdpy==1.3.2',
-        'pyinotify==0.9.6'
+        'pyinotify==0.9.6',
+        'rsa==4.5'
     ],
     setup_requires=[
         'setuptools_git'
