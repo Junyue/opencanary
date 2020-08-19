@@ -15,7 +15,7 @@ setup(
         'Twisted==14.0.2',
         'pyasn1==0.4.4',
         'pycrypto==2.6.1',
-        'simplejson==3.16.0',
+        'simplejson==3.17.2',
         'wsgiref==0.1.2',
         'zope.interface==4.5.0',
         'PyPDF2==1.26.0',
